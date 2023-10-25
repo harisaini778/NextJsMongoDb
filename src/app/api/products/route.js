@@ -12,15 +12,10 @@ export async function GET() {
   return NextResponse.json({ result: data });
 }
 
-export async function POST() {
+export async function POST(request) {
+  const payload = await request.json();
   await mongoose.connect(connectionSrt);
-  const postData = new meetupData({
-    name: "Sample meetup 5",
-    address: "Some Streeet 5",
-    time: "3:00 Am",
-    image: "pqr url",
-    description: "This is the description of sample meetup 5"
-  });
+  const postData = new meetupData(payload);
   const result = await postData.save();
   return NextResponse.json({result, success:true})
 }
